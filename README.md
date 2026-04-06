@@ -6,6 +6,6 @@ Created with Jupyter Notebooks, Python, R and Tableau.
 1. Crohn's Disease and Ulcerative Colitis Flare Prediction
 2. Predicting Health Insurance Claim Denials
 3. **Project 3 in DSC 680**
-4. 
+4. NFL Fantasy Points Analysis
 
 
