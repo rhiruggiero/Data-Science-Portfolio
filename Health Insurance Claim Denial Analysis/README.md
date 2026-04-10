@@ -1,4 +1,5 @@
 **Predicting Health Insurance Claim Denials**
+
 A project completed in one of my courses to learn more about optimizing models and assessing their performance.
 
 **Introduction**
