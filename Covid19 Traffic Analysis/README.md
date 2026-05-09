@@ -1,4 +1,4 @@
-**Crohn's Disease and Ulcerative Colitis Flare Prediction**
+**COVID-19 Traffic Analysis**
 
 A project completed for my master’s in data science degree.
 
