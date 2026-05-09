@@ -12,7 +12,7 @@ The Covid-19 pandemic changed the way that many people interact with the world. 
 
 **Data**
 
-Linkes to the data sources:
+Links to the data sources:
 - https://data.census.gov/table/ACSDT1Y2019.B08141?q=transportation%20in%20the%20united%20states%20in%202019
 - https://data.census.gov/table/ACSDT5Y2020.B08141?q=transportation%20in%20the%20united%20states%20in%202020
 - https://data.census.gov/table/ACSDT1Y2021.B08141?q=transportation%20in%20the%20united%20states%20in%202021
