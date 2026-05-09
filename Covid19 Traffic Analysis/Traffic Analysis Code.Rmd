@@ -1,0 +1,323 @@
+---
+title: "Analyzing Transportation Changes due to Covid-19"
+author: "Rhianna Ruggiero"
+date: "2024-11-01"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 60), tidy = TRUE)
+```
+Part 1:
+
+Introduction:
+	The Covid-19 pandemic changed the way that many people interact with the world.   The pandemic disrupted lives, caused panic and altered daily routines.  Many predictions of habits for the future did not assume that a pandemic would occur as well.  Data science can be used to see how much things have changed, specifically with transportation.  People began working from home, were told to stay 6 feet apart from others and some lost their jobs and income.  Many less cars were on the road and people were not travelling as much.  I want to see how the pandemic affected transportation and whether people now travel mainly by car, if they have returned to using public transportation or have used other means.  This is an important topic as it can show if CO2 emissions have generally increased (and predict whether they will continue to increase) which can help influence various policies or actions that can be taken to decrease them.  Alternatively, it can show if emissions have declined that we can focus more on other areas of concern.  It also can show us how traffic patterns may have changed and if there will be more vehicles on the road than previously, which could lead to more areas needing maintenance.  Data science can help figure out trends in the data.
+	
+Research Questions:
+	Questions that I have related to this topic are:  Have we returned to the same levels of car, bus, train etc. usage since before the pandemic?  How much did transportation change in 2020 when the pandemic began?  Are more people using public transportation again or has the pandemic caused people to shy away from it?  How did transportation change for people in poverty before, during and after the pandemic?  Did car sales increase since the pandemic?  Have the number of busses in service changed since the pandemic?  How have prices changed for a bus or train ticket?
+	
+Approach:
+	To address this problem, I would need to find data related to transportation in the United States most likely for the past decade.  A lot of the data can be found from the United States Census data.  I would then ensure that the data is clean so that I can analyze the various data and see if numbers have generally stayed the same or if they increased/decreased and whether trends show if the numbers may continue to increase/decrease in the future.  To see any trends, I would create and compare plots in R from before, during and after 2020.  I plan to use line charts to see the difference in usage between various vehicles like cars, buses and public transportation.  I also will be calculating the difference in mean and median in different years along with seeing which modes were most popular using mode.
+	
+How approach addresses the problem:
+	This approach will partially address the issue by allowing us to see how trends have changed over time in transportation.  We should be able to learn more about whether people chose to use cars, trains, buses etc. more at different times and can assume that the COVID-19 pandemic had an impact on this.  Based on the transportation data we won't be able to directly say whether emissions have for certain increased or decreased, but we can see if there are more vehicles on the road contributing to emissions and traffic.  This analysis is the first step in seeing if transportation patterns have changed and whether further action needs to be taken to address potential traffic and environmental impacts. 
+	
+Data:
+	For this project, I believe that US Census data will help me with my analysis (Bureau, 2024). One data set that I found at this link https://data.census.gov/table/ACSDT1Y2019.B08141?q=transportation%20in%20the%20united%20states%20in%202019 shows how many people drove a car, how many took public transportation or worked from home.  I decided to look at this data specifically in 2019 for the United States.  This data was collected on individuals that are 16 years of age and older.  According to an article on the site, the US Census Bureau collects information related to transportation in order to help with transportation planning, how to improve their roads and how to determine what may be needed in the future (Bureau, Commuting / journey to work 2024).  This specific set of data shows average values, so there is no concern with any missing data.  A pre-determined margin of error is also provided which can help with determining how accurate the results are.  I can also use a similar data set for 2020, 2021 (and other years) that shows how people commuted to work then at https://data.census.gov/table/ACSDT5Y2020.B08141?q=transportation%20in%20the%20united%20states%20in%202020 and also at https://data.census.gov/table/ACSDT1Y2021.B08141?q=transportation%20in%20the%20united%20states%20in%202021. 
+	Another set of data that I found is from the U.S. Department of Transportation Bureau of Transportation Statistics and can be found at https://data.bts.gov/Research-and-Statistics/Transportation-Services-Index-and-Seasonally-Adjus/bw6n-ddqk/about_data. This is a large set of data published by the Bureau of Transportation Statistics created on March 21st 2017 and was most recently updated on October 10th 2024. This data set includes information on rail passenger miles, public transit ridership and more each month starting in 2000. There are 296 rows of data and 66 columns of data. The site that contains the data explains what the purpose of each column is within the data.  One peculiar thing about this data set is that it contains some columns with “seasonally-adjusted” data.  It is explained that the seasonally-adjusted data was altered by statisticians in order to more accurately make predictions and to control influences in the data including seasons and different numbers of weekends in a month.  
+	Another data source is from https://data.ny.gov/Transportation/MTA-Daily-Ridership-Data-Beginning-2020/vxuj-8kew/about_data.  This data contains information on transportation numbers on various trains, subways and busses specifically in NY (including the LIRR) and shows numbers after the pandemic, specifically after March 1st 2020.  This will be give great insight as to how these have changed over time.  The source of this data can be found at https://new.mta.info/open-data.  The data is collected by the MTA to help keep transportation reliable, safe and fast.  There are 1699 rows of data in this set and 15 columns.  The data set was created on March 14th 2022 and is updated daily. Although this data set is in a specific area of the US, it can still show how ridership has changed over the years for subways, buses and trains.  Something different about this data set is that it also provides a comparison to values from prior to the pandemic.  With this extra information, I can compare the percentage numbers to truly understand how much transportation changed since the pandemic and whether it has returned to prior levels. 
+	
+Required Packages:
+	For this project I will use ggplot2 to help create plots to help discover if the data is normal and to also help identify any outliers in the data that might be affecting the results. I will also use dplyr to help filter the data to my needs and to clean it up.   I also may need to use the purrr package to help remove any “NA” values in my data sets however most of them do not seem to have any missing values. 
+	
+Plots and Table Needs:
+	I will be using ggplot2 to create plots.  Some of the plots that will be helpful will be scatterplots to see how trends have changed in multiple years for different modes of transportation.  Bar charts can also be helpful to see which transportation modes were most popular and how transportation changed each year in comparison to each other. Line charts will also be helpful to show changes in trends year over year for specific modes of transportation.
+	
+Questions for future steps:
+	In order to answer my research questions, I will have to determine which type of model could be used to best fit the trends in the data.  I currently know how to create a linear model but am not sure how to create other models.  I also have to determine whether I have collected enough data in order to successfully do an analysis.  
+	
+Part 2:
+
+How did you import and clean your data?
+	I imported my data by saving CSV and XLSX files onto my computer and reading the files in R Studio.  One of the ways that I cleaned my data was by changing the names of the columns so that I could reference them more easily specifically for the yearly transportation to work data that I am using.  I also cleaned some of the transportation to work data in excel to remove extra information on vehicle availability that I did not need. I chose to complete this in excel since it was easier for me rather than completing this task in R by filtering each separate data set.  Using a loop would make this task simpler since a lot of the code that I used for importing the transportation to work data was repetitive however I was not entirely sure how to successfully execute this in R.  For the transportation to work data I combined each separate data set into one using rbind, then selected the columns that I wanted from these sets of data.
+	For the Bureau of Transportation Statistics data, I imported the CSV file using read.table and selected the specific columns that I was interested in using.  I decided to organize the data by year and used mutate to extract the year from the date column.  I chose to only look at the data 2016 to now since my other data set began in 2016 and filtered the data to reflect this. Finally I used the group_by and summarise functions to get the average of the data in the columns by year. 
+	For my last separate data set on MTA data, I imported the CSV file using read.table and changed the names of the columns I was interested in using so that they could be more easily referenced.  I also had to extract the year from the date in this data set and also used the group_by and summarise functions to average the data and group it by year. 
+	
+What does the final data set look like?
+	The final data set combines each of the separate data sets into one and shows various methods of transportation used ranging from 2016 to 2023.  Some of the data shows how many miles were traveled and the number of people that used different modes of transportation. 
+
+What information is not self-evident?
+It is not self evident how the method that people took in order to get to work has changed.  Before discovering this, I will need to combine each of the means of transportation to work data sets and graph the data to see the differences more clearly. Also, combining the separate transportation to work data sets will help to uncover more information and to see the year over year trends.  Graphing the data will help show large differences and how the data has changed over time.
+
+What are different ways you could look at this data?
+	There are a few different ways that I can look at the data. For the means of transportation to work data, I can specifically look at one means (for example, working from home) and see how this has changed over the years. I can also see how this compares to other means within the same year to see what was most popular and if any method switched popularity in different years.
+	
+How do you plan to slice and dice the data?
+	I added a column with the year to the various transportation to work data sets by using cbind in R. To make this repetitive task easier, I used find and replace in R to change the year number rather than re-typing out the year. Finally, I used rbind to combine each data set together into one that clearly shows how people got to work in specific years ranging from 2016 to 2022.  I also used the pipe operator to make data transformation easier and simpler.  The group_by and summarise functions helped me to ensure that each of my data sets were organized by year so that the data could easily be joined together into one data set by year. 
+	I also added a new column called “Car” to the final data set that combined data on whether people drove alone or carpooled to work.  For my specific analysis, it did not matter to me whether they went alone or with someone else, just whether they used a car or a separate vehicle.
+	
+How could you summarize your data to answer key questions?
+	I decided to summarize my data by year and by getting the average for each column.  This helps me to see how transportation has changed on average each year.  Other ways that I could have summarized the data is by month for the MTA and BTS data.  This would have allowed me to see more data and to see how quickly or slowly trends had changed over time. 
+	
+What types of plots and tables will help you to illustrate the findings to your questions?
+	The plot that is most helpful for me to illustrate my findings is a connected scatterplot.  Scatterplots and line charts are helpful in showing how variable have changed over time. Since my analysis is looking to see how transportation trends have changed over a few years, the scatterplot makes the most sense. I decided to create a few different scatterplots that show different results to make it easier to draw conclusions based on the data.
+	
+Do you plan on incorporating any machine learning techniques to answer your research questions? Explain.
+	I think that linear regression may be helpful in answering my research questions.  Linear regression can be used to see if one (or multiple) factors can affect another.  For example, a lot of transportation changed in 2020 due to working from home and businesses closing.  Years after the pandemic however we are seeing everything change once again and may be able to use regression to see how it may continue to change.  Maybe the total subway usage is a good indicator of whether more people may be working from home or returning to their office.  Tracking subway usage based on ticket sales is more straightforward than tracking how many people work from home so it would be good to know whether subway usage can be used to predict if more people are returning to the office.
+	
+What questions do you have now, that will lead to further analysis or additional steps?
+	I currently know how to do regression analysis, however I do not know how to use other machine learning techniques. I think that learning other techniques could help me to perform a deeper analysis on my data sets and allow me to draw more conclusions.  While I do believe that  regression can be extremely helpful in this situation to predict how transportation might change, another technique that I think could be helpful in this situation is clustering.  Clustering can help by grouping observations together that are similar to each other. In this specific example, clustering could be used to determine how the usage of different modes of transportation could have changed a similar amount to each other over different years.
+
+
+```{r cars}
+library(readxl)
+library(dplyr)
+library(purrr)
+library(ggplot2)
+library(stringr)
+
+# Import transportation to work data
+fileName <- "C:\\Users\\rhiru\\OneDrive\\Documents\\DSC 520\\Project data\\transportation 2016.xlsx"
+my2016Data <- read_excel(fileName)
+
+fileName <- "C:\\Users\\rhiru\\OneDrive\\Documents\\DSC 520\\Project data\\transportation 2017.xlsx"
+my2017Data <- read_excel(fileName)
+
+fileName <- "C:\\Users\\rhiru\\OneDrive\\Documents\\DSC 520\\Project data\\transportation 2018.xlsx"
+my2018Data <- read_excel(fileName)
+
+fileName <- "C:\\Users\\rhiru\\OneDrive\\Documents\\DSC 520\\Project data\\transportation 2019.xlsx"
+my2019Data <- read_excel(fileName)
+
+fileName <- "C:\\Users\\rhiru\\OneDrive\\Documents\\DSC 520\\Project data\\transportation 2020.xlsx"
+my2020Data <- read_excel(fileName)
+
+fileName <- "C:\\Users\\rhiru\\OneDrive\\Documents\\DSC 520\\Project data\\transportation 2021.xlsx"
+my2021Data <- read_excel(fileName)
+
+fileName <- "C:\\Users\\rhiru\\OneDrive\\Documents\\DSC 520\\Project data\\transportation 2022.xlsx"
+my2022Data <- read_excel(fileName)
+
+
+df2016 <- data.frame(Year = c('2016'))
+data2016 <- cbind(my2016Data, df2016)
+colnames(data2016)[1] <- "Label"
+colnames(data2016)[2] <- "Total"
+colnames(data2016)[3] <- "Drove_Alone"
+colnames(data2016)[4] <- "Carpooled"
+colnames(data2016)[5] <- "Public_transport"
+colnames(data2016)[6] <- "Walked"
+colnames(data2016)[7] <- "Taxi_Bike_more"
+colnames(data2016)[8] <- "WFH"
+
+df2017 <- data.frame(Year = c('2017'))
+data2017 <- cbind(my2017Data, df2017)
+colnames(data2017)[1] <- "Label"
+colnames(data2017)[2] <- "Total"
+colnames(data2017)[3] <- "Drove_Alone"
+colnames(data2017)[4] <- "Carpooled"
+colnames(data2017)[5] <- "Public_transport"
+colnames(data2017)[6] <- "Walked"
+colnames(data2017)[7] <- "Taxi_Bike_more"
+colnames(data2017)[8] <- "WFH"
+
+df2018 <- data.frame(Year = c('2018'))
+data2018 <- cbind(my2018Data, df2018)
+colnames(data2018)[1] <- "Label"
+colnames(data2018)[2] <- "Total"
+colnames(data2018)[3] <- "Drove_Alone"
+colnames(data2018)[4] <- "Carpooled"
+colnames(data2018)[5] <- "Public_transport"
+colnames(data2018)[6] <- "Walked"
+colnames(data2018)[7] <- "Taxi_Bike_more"
+colnames(data2018)[8] <- "WFH"
+
+df2019 <- data.frame(Year = c('2019'))
+data2019 <- cbind(my2019Data, df2019)
+colnames(data2019)[1] <- "Label"
+colnames(data2019)[2] <- "Total"
+colnames(data2019)[3] <- "Drove_Alone"
+colnames(data2019)[4] <- "Carpooled"
+colnames(data2019)[5] <- "Public_transport"
+colnames(data2019)[6] <- "Walked"
+colnames(data2019)[7] <- "Taxi_Bike_more"
+colnames(data2019)[8] <- "WFH"
+
+df2020 <- data.frame(Year = c('2020'))
+data2020 <- cbind(my2020Data, df2020)
+colnames(data2020)[1] <- "Label"
+colnames(data2020)[2] <- "Total"
+colnames(data2020)[3] <- "Drove_Alone"
+colnames(data2020)[4] <- "Carpooled"
+colnames(data2020)[5] <- "Public_transport"
+colnames(data2020)[6] <- "Walked"
+colnames(data2020)[7] <- "Taxi_Bike_more"
+colnames(data2020)[8] <- "WFH"
+
+df2021 <- data.frame(Year = c('2021'))
+data2021 <- cbind(my2021Data, df2021)
+colnames(data2021)[1] <- "Label"
+colnames(data2021)[2] <- "Total"
+colnames(data2021)[3] <- "Drove_Alone"
+colnames(data2021)[4] <- "Carpooled"
+colnames(data2021)[5] <- "Public_transport"
+colnames(data2021)[6] <- "Walked"
+colnames(data2021)[7] <- "Taxi_Bike_more"
+colnames(data2021)[8] <- "WFH"
+
+df2022 <- data.frame(Year = c('2022'))
+data2022 <- cbind(my2022Data, df2022)
+colnames(data2022)[1] <- "Label"
+colnames(data2022)[2] <- "Total"
+colnames(data2022)[3] <- "Drove_Alone"
+colnames(data2022)[4] <- "Carpooled"
+colnames(data2022)[5] <- "Public_transport"
+colnames(data2022)[6] <- "Walked"
+colnames(data2022)[7] <- "Taxi_Bike_more"
+colnames(data2022)[8] <- "WFH"
+
+finalTransportData <- rbind(data2016, data2017, data2018, data2019, data2020, data2021, data2022)
+
+finalTransportData <- finalTransportData %>% 
+  select(Year, Total, Drove_Alone, Carpooled, Public_transport, Walked, Taxi_Bike_more, WFH)
+
+# Import Bureau of Transportation Statistics data
+fileName <- 
+  "C:\\Users\\rhiru\\OneDrive\\Documents\\DSC 520\\Project data\\BTS_data.csv"
+myBTSData <- read.table(file = fileName, header = TRUE, sep=",")
+
+myBTSDataFinal <- myBTSData %>% select(OBS_DATE, RAIL_PM, TRANSIT, VMT, ASM_D) %>% 
+  mutate(Year = str_extract(OBS_DATE, "\\d{4}"))
+
+myBTSDataFinal <- myBTSDataFinal %>% filter(Year > 2015)
+
+myBTSDataFinal <- myBTSDataFinal %>% group_by(Year) %>% 
+  summarise(Rail_Miles = mean(RAIL_PM), 
+            Public_Transit_Trips = mean(TRANSIT),
+            Vehicle_Miles_Traveled = mean(VMT),
+            Air_Seat_Miles_Domestic = mean(ASM_D))
+
+myBTSDataFinal
+
+#MTA Data import
+fileName <- 
+  "C:\\Users\\rhiru\\OneDrive\\Documents\\DSC 520\\Project data\\MTA_data.csv"
+myMTAData <- read.table(file = fileName, header = TRUE, sep=",")
+
+colnames(myMTAData)[2] <- "NY_Subways"
+colnames(myMTAData)[3] <- "NY_Subway_Percent"
+colnames(myMTAData)[4] <- "NY_Buses"
+colnames(myMTAData)[5] <- "NY_Bus_Percent"
+colnames(myMTAData)[6] <- "LIRR"
+colnames(myMTAData)[7] <- "LIRR_Percent"
+
+myMTAFinalData <- myMTAData %>% 
+  select(Date, NY_Subways, NY_Subway_Percent, NY_Buses, NY_Bus_Percent, LIRR, LIRR_Percent) %>%
+  mutate(Year = str_extract(Date, "\\d{4}")) %>% filter(Year > 2015) %>% 
+  group_by(Year) %>% summarise(NY_Subways = mean(NY_Subways), 
+                               NY_Subway_Percent = mean(NY_Subway_Percent),
+                               NY_Buses = mean(NY_Buses),
+                               NY_Bus_Percent = mean(NY_Bus_Percent),
+                               LIRR = mean(LIRR),
+                               LIRR_Percent = mean(LIRR_Percent))
+
+myMTAFinalData
+
+
+finalFirstFrame <-  myBTSDataFinal |> 
+  left_join(finalTransportData, by = join_by(Year == Year))
+
+finalFrame <- finalFirstFrame |> 
+  left_join(myMTAFinalData, by = join_by(Year == Year))
+
+finalFrame <- finalFrame %>% mutate(Car=Carpooled+Drove_Alone)
+
+finalFrame
+
+#plots
+ggplot(finalFrame, aes(Year)) + 
+  ggtitle("Transportation to Work") +
+  geom_line(aes(y = Public_transport, color = "Public_transport", group = 1)) +
+  geom_line(aes(y = Walked, color = "Walked", group = 1)) + 
+  geom_line(aes(y = WFH, color = "WFH", group = 1)) +
+  geom_line(aes(y = Car, color = "Car", group = 1)) +
+  geom_line(aes(y = Taxi_Bike_more, color = "Taxi_Bike_more", group = 1)) +
+  labs(y= "Number of People", x = "Year")
+  
+ggplot(finalFrame, aes(Year)) + 
+  ggtitle("Transportation to Work (excluding car)") +
+  geom_line(aes(y = Public_transport, color = "Public_transport", group = 1)) +
+  geom_line(aes(y = Walked, color = "Walked", group = 1)) + 
+  geom_line(aes(y = WFH, color = "WFH", group = 1)) +
+  geom_line(aes(y = Taxi_Bike_more, color = "Taxi_Bike_more", group = 1)) +
+  labs(y= "Number of People", x = "Year")
+
+ggplot(finalFrame, aes(Year)) + 
+  ggtitle("Transportation in NY") +
+  geom_line(aes(y = LIRR, color = "LIRR", group = 1)) +
+  geom_line(aes(y = NY_Buses, color = "NY_Buses", group = 1)) + 
+  geom_line(aes(y = NY_Subways, color = "NY_Subways", group = 1)) +
+  labs(y= "Number of People", x = "Year")
+
+ggplot(finalFrame, aes(Year)) + 
+  ggtitle("Miles traveled in US") +
+  geom_line(aes(y = Rail_Miles, color = "Rail_Miles", group = 1)) +
+  geom_line(aes(y = Vehicle_Miles_Traveled, color = "Vehicle_Miles_Traveled", group = 1)) + 
+  geom_line(aes(y = Air_Seat_Miles_Domestic, color = "Air_Seat_Miles_Domestic", group = 1)) +
+  labs(y= "Miles Traveled", x = "Year")
+  
+ggplot(finalFrame, aes(Year)) + 
+  ggtitle("Vehicle Miles traveled in US") +
+  geom_line(aes(y = Vehicle_Miles_Traveled, color = "Vehicle_Miles_Traveled", group = 1)) + 
+  labs(y= "Miles Traveled", x = "Year")
+
+```
+
+Part 3:
+
+Introduction.
+	Many of us witnessed firsthand how the pandemic disrupted the world.  Schools and businesses shut down and people were told to stay home.  Some people were furloughed or lost their jobs and others who were in essential roles continued to work whether it was in person or remote.  This in turn changed the number of people who used public transportation or drove to work and how far people were driving as well.  This project uses public data to confirm whether transportation really was affected by the pandemic and by how much.  The data also can be analyzed to see whether we have returned to pre-pandemic levels or if the affects of the pandemic still linger 4 years later.
+	
+The problem statement you addressed. 
+	My goal with this analysis was to see how transportation was affected by the COVID-19 pandemic in the US.  This is an important topic to research, as it can have a large impact on traffic patterns and CO2 emissions.  The pandemic could have also altered the way that people commute to work.  I analyzed data to help show if traffic patterns have changed since the pandemic, if they have returned to previous levels or if they seem to have been affected by the pandemic at all.
+How you addressed this problem statement
+	I found data on how people commuted to work, how many miles were travelled in general in the US and how ridership changed over years in the NY public transportation system.  Each of these pieces of information gave valuable insight as to how transportation was affected in 2020.  I combined all of the data together into one data set, and I decided to plot the data using scatterplots with connecting lines in order to better see how data changed over the years.  
+	For this project, I would recommend using a linear regression model for the data on transportation to work.  I think thats this will give valuable insight when comparing the number of people working from home to the number of people driving to work in cars.  Linear regression can also be used to see how the number of people using public transportation or other methods of commuting to work affects each other.  For example, if you predict to see a higher usage of public transportation you can use regression to see how this may affect the number of cars on the road.
+	A spline could also be used with helping to predict future trends in the NY public transportation data.  The data is not linear, so a spline would be a better choice as compared to a linear analysis.
+	
+Analysis.
+	Plotting the data revealed a lot of insights about the transportation data. The first plot I created was a scatterplot on methods of transportation used to commute to work.  In this plot, the transportation to work via car was far higher than the other values that represented people who took public transport, people who walked, and people worked from home.  The plot shows how commuting via car slightly dipped in 2020 when everything started, but significantly dipped in 2021 once more measures were put in place to stop the spread of disease.  As expected, as the number of people who commuted to work via car decreased, the number of people who worked from home significantly increased. Public transportation also seems to have decreased sightly in 2021 as well.
+	Due to the large difference in commuting to work via car, I decided to create another plot that removes this variable so that I could more easily see how the other variables changed.  In this second scatterplot, you can see just how much the number of people working from home increased at the same time that the number of people using public transportation tanked. The number of people who walked also decreased in 2021 but began increasing again along with public transport in 2022 as the number of people working from home started to decrease again in 2022. 
+	Next, I looked specifically at how transportation changed in New York after 2020. After 2020, the use of the rail road, buses and subways all started to increase again.  The use of the rail road is increasing steadily and linearly and subway and bus usage seem to be leveling out after both had significant increases after 2020.  Something interesting about this data is that the usage of subways has increased by around 2 million people from 2020 to 2024.  According to the NY subway percent data that I obtained, the level of ridership in 2024 is only at 71% of what it was prior to the pandemic.  This shows just how much subway usage was affected by the pandemic, and how it has taken years to only return to 71% of ridership levels previously.  The number of people using the subway is increasing, however since it seems to be leveling off, we could use machine learning to determine if the levels may ever return to what they were before the pandemic.
+	The next scatterplot that I created was to see how miles traveled in the US changed over the years.  The plot shows that in the US, most miles traveled are by rail.  This number significantly decreased in 2020, and as of 2023 the numbers have not returned to levels prior to the pandemic.  In this plot, it looks as though the number of vehicle miles traveled stayed the same and at 0, which does not make sense.  Due to the large difference in number of miles traveled via rail compared to in vehicles, I decided to create another plot to see a more accurate representation of how that number changed. In the final scatterplot, the number of miles traveled by vehicle did change in 2020, but only by around 30000 which is not a large number compared to the change in rail miles.  Interestingly enough, the number of vehicle miles traveled has increased past the number of miles traveled in 2019 before the pandemic.  Prior to the pandemic, the numbers were on an upwards trajectory.  Now, the numbers have returned to prior levels and are continuing the upwards trajectory that was occuring before 2020.
+	
+Implications. 
+	Creating a model would help to figure out future trends, however based on the collected data we can say that transportation did change in 2020 most likely due to the COVD-19 pandemic.  Numbers of miles traveled and commuters to work drastically dropped as the number of people who worked from home increased.  The number of people who work from home is starting to decrease again, however. Some statistics seem to have returned to pre-COVID levels including the number of miles traveled by vehicle however other ones have not returned including the number of people riding on the subway in NY.  Further analysis with a model can be used to determine when ridership numbers may return to pre-covid times.  An interesting discovery made with the data is that the miles traveled in a vehicle have returned to pre-covid levels and are even increasing beyond what they were. This could be due to other outside factors which would have to be measured.   
+	
+Limitations.
+	A big limitation with this project is sample size.  Since I summarized the data by year, I did not have a lot of data points which could skew results when performing an analysis or regression on the data. Finding more relevant data would provide a more accurate result.  Also including data on outside factors including age and population numbers may also help with the analysis to try and see why these numbers may vary over the years.  Another set of data that could be useful would be data on the number of people who were furloughed from their jobs as well.  This could have had an affect on the drastic decrease in the number of people commuting to work as well in 2020.
+	
+Concluding Remarks.
+	This project is an introductory representation of how transportation was affected by the COVID-19 pandemic in the US.  I was able to confirm that there was a decrease in all kinds of transportation in 2020 which lingered for a few years after.  Some transportation statistics have returned to pre-COVID levels and others have even surged past prior levels.  The data and analysis done for this project can be taken further with the creation of models to predict whether these statistics may return to prior levels and to see how the data is trending.  This in turn can help people become more informed about future traffic patterns to help them make decisions to improve roadways and public transportation.
+
+
+```{r pressure, echo=FALSE}
+
+
+```
+
+--
+
+
+References
+
+Authority, M. T. (2024, October 25). MTA Daily Ridership Data: Beginning 2020: State of New York. MTA Daily Ridership Data: Beginning 2020 | State of New York. https://data.ny.gov/Transportation/MTA-Daily-Ridership-Data-Beginning-2020/vxuj-8kew/about_data 
+
+Bureau, U. C. (2024, October 18). U.S. Census Bureau homepage. Census.gov. https://www.census.gov/ 
+Bureau, U. S. C. (n.d.). Explore census data. https://data.census.gov/table/ACSDT1Y2019.B08141?q=transportation+in+the+united+states+in+2019 
+
+Bureau, U. C. (2024a, August 13). Commuting / journey to work. Census.gov. https://www.census.gov/acs/www/about/why-we-ask-each-question/commuting/#:~:text=Transportation%20Planning&text=The%20federal
+%20Department%20of%20Transportation,transportation%20needs%20throughout%20the%20nation 
+
+MTA Open Data Program. MTA. (2024, October 23). https://new.mta.info/open-data 
+Statistics, B. of T. (2024, October 10). Transportation Services index and seasonally-adjusted transportation data: BTS Data Inventory. Bureau of Transportation Statistics. https://data.bts.gov/Research-and-Statistics/Transportation-Services-Index-and-Seasonally-Adjus/bw6n-ddqk/about_data 
