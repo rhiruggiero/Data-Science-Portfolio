@@ -5,7 +5,7 @@ Created with Jupyter Notebooks, Python, R and Tableau.
 # Content/Projects
 1. Crohn's Disease and Ulcerative Colitis Flare Prediction
 2. Predicting Health Insurance Claim Denials
-3. **Project 3 in DSC 680**
+3. HR People Analytics
 4. Fantasy Football Stats Analysis
 5. Dodgers Attendance Analysis
 6. TSA Complaints Visual Analysis
