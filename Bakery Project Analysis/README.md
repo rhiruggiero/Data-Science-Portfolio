@@ -14,6 +14,7 @@ The data used for this project can be found at this link: https://www.kaggle.com
 
 -	Python
 - Jupyter Notebook
+- Tableau
 
 **Modeling methods:**
 
@@ -21,6 +22,6 @@ This project explores linear regression and random forest modeling.
 
 **Link to project:**
 -	Final PDF
--	Final code
+-	Final code (Python portion)
 
 
